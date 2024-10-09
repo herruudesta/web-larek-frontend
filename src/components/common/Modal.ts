@@ -21,7 +21,9 @@ export class Modal extends View<IModalData> {
 
 		this._closeButton.addEventListener('click', this.close.bind(this));
 		this.container.addEventListener('mousedown', this.close.bind(this));
-		this._content.addEventListener('mousedown', (event) => event.stopPropagation());
+		this._content.addEventListener('mousedown', (event) =>
+			event.stopPropagation()
+		);
 	}
 
 	set content(value: HTMLElement) {

@@ -6,7 +6,9 @@ interface ICardActions {
 	onClick: (event: MouseEvent) => void;
 }
 
+//Класс для описания карточки
 export class Card extends Component<IProduct> {
+	// Ссылки на внутренние элементы карточки
 	protected _category?: HTMLElement;
 	protected _title: HTMLElement;
 	protected _image?: HTMLImageElement;
@@ -16,10 +18,10 @@ export class Card extends Component<IProduct> {
 
 	protected _categoryColor = new Map<string, string>([
 		['софт-скил', '_soft'],
+		['хард-скил', '_hard'],
+		['кнопка', '_button'],
 		['другое', '_other'],
 		['дополнительное', '_additional'],
-		['кнопка', '_button'],
-		['хард-скил', '_hard'],
 	]);
 
 	constructor(container: HTMLElement, actions?: ICardActions) {
@@ -41,7 +43,7 @@ export class Card extends Component<IProduct> {
 			}
 		}
 	}
-
+	// Сеттер и геттер id
 	set id(value: string) {
 		this.container.dataset.id = value;
 	}
@@ -49,7 +51,7 @@ export class Card extends Component<IProduct> {
 	get id(): string {
 		return this.container.dataset.id || '';
 	}
-
+	// Сеттер и геттер названия
 	set title(value: string) {
 		this.setText(this._title, value);
 	}
@@ -57,15 +59,11 @@ export class Card extends Component<IProduct> {
 	get title(): string {
 		return this._title.textContent || '';
 	}
-
+	// Сеттер картинки
 	set image(value: string) {
 		this.setImage(this._image, value, this.title);
 	}
-
-	get price(): string {
-		return this._price.textContent || '';
-	}
-
+	// Сеттер и геттер цены
 	set price(value: string) {
 		if (value) {
 			this.setText(this._price, `${value} синапсов`);
@@ -78,10 +76,11 @@ export class Card extends Component<IProduct> {
 		}
 	}
 
-	get category(): string {
-		return this._category.textContent || '';
+	get price(): string {
+		return this._price.textContent || '';
 	}
 
+	// Сеттер и геттер категории
 	set category(value: string) {
 		this.setText(this._category, value);
 		this._category?.classList?.remove('card__category_soft');
@@ -91,10 +90,14 @@ export class Card extends Component<IProduct> {
 		);
 	}
 
+	get category(): string {
+		return this._category.textContent || '';
+	}
+	// Сеттер описания
 	set description(value: string) {
 		this.setText(this._description, value);
 	}
-
+	// Сеттер кнопки
 	set button(value: string) {
 		this.setText(this._button, value);
 	}

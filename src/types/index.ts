@@ -1,3 +1,4 @@
+//Интерфейс для товаров в магазине
 export interface IProduct {
 	id: string;
 	description: string;
@@ -6,12 +7,12 @@ export interface IProduct {
 	category: string;
 	price: number | null;
 }
-
+//Интерфейс для корзины
 export interface IBasket {
 	items: string[];
 	total: number;
 }
-
+//Интерфейс для заказа
 export interface IOrder extends IContactsForm {
 	payment: PaymentMethod;
 	email: string;
@@ -25,6 +26,7 @@ export type PaymentMethod = 'cash' | 'card';
 
 export type OrderForm = Omit<IOrder, 'total' | 'items'>;
 
+//Интерфейс для окна контактов и форма
 export interface IContactsForm {
 	email: string;
 	phone: string;
@@ -37,6 +39,7 @@ export interface IContacts extends IContactsForm {
 export type FormErrorsOrder = Partial<Record<keyof IOrder, string>>;
 export type FormErrorsContacts = Partial<Record<keyof IContacts, string>>;
 
+//Интерфейс для заказа total
 export interface IOrderResult {
 	id: string;
 	total: number;

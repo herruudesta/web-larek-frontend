@@ -3,6 +3,7 @@ import { cloneTemplate, createElement, ensureElement } from '../../utils/utils';
 import { View } from '../base/Component';
 import { EventEmitter } from '../base/events';
 
+//Класс для описания корзины для товаров
 export class Basket extends View<IBasket> {
 	static template = ensureElement<HTMLTemplateElement>('#basket');
 	protected _list: HTMLElement;

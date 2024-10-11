@@ -2,6 +2,7 @@ import { OrderForm } from '../types';
 import { EventEmitter } from './base/events';
 import { Form } from './common/Form';
 
+//Класс описывает окно контактов
 export class clientContacts extends Form<OrderForm> {
 	constructor(container: HTMLFormElement, events: EventEmitter) {
 		super(container, events);

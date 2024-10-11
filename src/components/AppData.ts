@@ -102,14 +102,10 @@ export class AppData {
 	validateContacts() {
 		const errors: typeof this.formErrorsContacts = {};
 
-		const email_regex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z0-9_-]+)/;
-
 		if (!this.order.email) {
 			errors.email = 'Укажите email';
 		}
-		if (!email_regex.test(this.order.email)) {
-			errors.email = 'Формат email некорректный';
-		}
+
 		if (!this.order.phone) {
 			errors.phone = 'Укажите телефон';
 		}

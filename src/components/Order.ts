@@ -3,6 +3,7 @@ import { OrderForm, PaymentMethod } from '../types';
 import { EventEmitter } from './base/events';
 import { ensureElement } from '../utils/utils';
 
+//Класс для описания модалки с заказом
 export class Order extends Form<OrderForm> {
 	protected _paymentCard: HTMLButtonElement;
 	protected _paymentCash: HTMLButtonElement;

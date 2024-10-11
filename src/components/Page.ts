@@ -2,12 +2,14 @@ import { View } from './base/Component';
 import { IEvents } from './base/events';
 import { ensureElement } from '../utils/utils';
 
+//Интерфейс страницы
 interface IPage {
 	counter: number;
 	catalog: HTMLElement[];
 	locked: boolean;
 }
 
+//Класс для описания страницы
 export class Page extends View<IPage> {
 	protected _counter: HTMLElement;
 	protected _catalog: HTMLElement;

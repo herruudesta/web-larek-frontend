@@ -46,21 +46,22 @@ const basket = new Basket(events);
 const order = new Order(cloneTemplate(orderTemplate), events);
 const contacts = new clientContacts(cloneTemplate(contactsTemplate), events);
 
-//События открытия и закрытия модальных окон
+//Событие при открытии модального окна блокирует основную страницу.
 events.on('modal:open', () => {
 	page.locked = true;
 });
 
+//Событие при закрытии модального окна разблокирует основную страницу.
 events.on('modal:close', () => {
 	page.locked = false;
 });
 
-//Событие выбора карточки
+//Событие выбирает карточку товара, устанавливая её в режиме предпросмотра.
 events.on('card:select', (item: IProduct) => {
 	appData.setPreview(item);
 });
 
-//Событие изменений в каталоге
+//Событие обновляет каталог товаров при изменении списка продуктов, создавая новые карточки для отображения.
 events.on('items:change', (items: IProduct[]) => {
 	page.catalog = items.map((item) => {
 		const card = new Card(cloneTemplate(cardCatalogTemplate), {
@@ -70,7 +71,7 @@ events.on('items:change', (items: IProduct[]) => {
 	});
 });
 
-//Событие добавления и удаления карточки из корзины
+//Событие управляет добавлением и удалением товара из корзины на основе действий пользователя с карточкой товара.
 events.on('preview:change', (item: IProduct) => {
 	const card = new Card(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
@@ -91,7 +92,7 @@ events.on('preview:change', (item: IProduct) => {
 	modal.open();
 });
 
-//Событие для изменений в корзине
+//Событие обновляет счетчик товаров в корзине и отображает содержимое корзины.
 events.on('basket:change', () => {
 	page.counter = appData.basket.items.length;
 
@@ -106,12 +107,13 @@ events.on('basket:change', () => {
 	basket.total = appData.basket.total;
 });
 
-//События открытия корзины и заказа
+//Событие открывает модальное окно с содержимым корзины.
 events.on('basket:open', () => {
 	modal.render({ content: basket.render() });
 	modal.open();
 });
 
+//Событие открывает модальное окно для оформления заказа.
 events.on('order:open', () => {
 	modal.render({
 		content: order.render({
@@ -124,7 +126,7 @@ events.on('order:open', () => {
 	modal.open();
 });
 
-//Событие для ошибок при оформлении заказа
+//Событие обрабатывает изменения в полях формы заказа, обновляя данные.
 events.on(
 	/^order\..*:change/,
 	(data: { field: keyof OrderForm; value: string }) => {
@@ -132,12 +134,14 @@ events.on(
 	}
 );
 
+//Событие управляет состоянием формы и ошибками при оформлении заказа.
 events.on('formErrorsOrder:change', (errors: Partial<OrderForm>) => {
 	const { address } = errors;
 	order.valid = !address;
 	order.errors = Object.values({ address }).filter(Boolean).join('; ');
 });
 
+//Событие обрабатывает изменения в полях формы контекста.
 events.on(
 	/^contacts\.[^:]*:change/,
 	(data: { field: keyof IContactsForm; value: string }) => {
@@ -145,13 +149,14 @@ events.on(
 	}
 );
 
+//Событие обновляет состояние и ошибки в форме контактов.
 events.on('formErrorsContacts:change', (errors: Partial<OrderForm>) => {
 	const { email, phone } = errors;
 	contacts.valid = !email && !phone;
 	contacts.errors = Object.values({ email, phone }).filter(Boolean).join('; ');
 });
 
-//Событие подтверждения заказа
+//Событие инициализирует процедуру подтверждения заказа, отображая форму для ввода контактной информации.
 events.on('order:submit', () => {
 	modal.render({
 		content: contacts.render({
@@ -163,7 +168,7 @@ events.on('order:submit', () => {
 	});
 });
 
-//Событие подтверждения введенных данных
+//Событие отправляет данные заказа и отображает сообщение об успехе. В случае ошибки логирует её в консоль.
 events.on('contacts:submit', () => {
 	api
 		.orderProducts(appData.order)
@@ -184,7 +189,8 @@ events.on('contacts:submit', () => {
 			console.error(err);
 		});
 });
-// Получение товаров с сервера
+
+// API запрашивает список продуктов через api.getProductList(), устанавливает их в appData при успехе, или выводит ошибку в консоль при неудаче.
 api
 	.getProductList()
 	.then(appData.setItems.bind(appData))

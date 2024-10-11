@@ -36,6 +36,7 @@ export class Form<T> extends View<IFormState> {
 		});
 	}
 
+	//Вызывает событие изменения для конкретного поля формы, передавая имя поля и его значение.
 	protected onInputChange(field: keyof T, value: string) {
 		this.events.emit(`${this.container.name}.${String(field)}:change`, {
 			field,
@@ -43,14 +44,17 @@ export class Form<T> extends View<IFormState> {
 		});
 	}
 
+	//Устанавливает состояние кнопки отправки формы (активна/неактивна) в зависимости от значения valid.
 	set valid(value: boolean) {
 		this._submit.disabled = !value;
 	}
 
+	//Выводит текст ошибок в соответствующий контейнер.
 	set errors(value: string) {
 		this.setText(this._errors, value);
 	}
 
+	//Обновляет состояние формы, устанавливая значения входных полей и отображая состояние формы, включая ошибки.
 	render(state: Partial<T> & IFormState) {
 		const { valid, errors, ...inputs } = state;
 		super.render({ valid, errors });
